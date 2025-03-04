@@ -1,0 +1,84 @@
+/* Sayfa genel ayarları */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url("../images/background.jpg");
+    background-size: cover; /* Arkaplanın ekranın tamamını kaplaması için */
+    background-position: center; /* Görüntünün düzgün bir şekilde ortalanması için */
+    background-repeat: no-repeat; /* Görüntünün tekrarlanmamasını sağlar */}
+
+/* Container stil */
+.container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+}
+
+/* Başlık stil */
+h1 {
+    color: #333;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+/* Form öğeleri stil */
+form {
+    margin-bottom: 30px;
+}
+
+/* Dosya yükleme input */
+input[type="file"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    width: 100%;
+    max-width: 300px;
+}
+
+/* Gönderme butonu */
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Sonuç kısmı stil */
+.result {
+    margin-top: 30px;
+}
+
+/* Resim için stil */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+/* H2 başlık stil */
+h2 {
+    font-size: 24px;
+    color: #333;
+}
