@@ -13,19 +13,19 @@ class MnistModel:
     @staticmethod
     def load_model(model_path):
         try:
-            print(f"Model yükleniyor: {model_path}")
+            print(f"Model loading: {model_path}")
             model = load_model(model_path)
-            print("Model başarıyla yüklendi.")
+            print("Model successfully loaded..")
             return model
         except Exception as e:
-            print(f"Model yükleme hatası: {e}")  # Hata durumunu loglayın
+            print(f"Model loading error: {e}")
             raise
 
     def predict_number(self, image):
         input_tensor = tf.convert_to_tensor(image, dtype=tf.float32)
         input_tensor = tf.expand_dims(input_tensor, axis=0)  # Model için batch boyutu ekle
         prediction = self.model.predict(input_tensor)
-        print(f"Model çıktısı (olasılıklar): {prediction}")
+        print(f"Model results (possibilties): {prediction}")
         predicted_number = np.argmax(prediction)
         return predicted_number
 

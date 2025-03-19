@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Name Barcode</title>
+    <title>Project Barcode</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
 </head>
 <body>
@@ -16,10 +16,25 @@
             <button type="submit">Submit</button>
         </form>
 
+        <!-- Tahmin sonucu göster -->
         {% if predicted_number is not none %}
             <div class="result">
                 <h2>Predicted Number: {{ predicted_number }}</h2>
-                <img src="{{ url_for('static', filename='uploads/' + image_file) }}" alt="Uploaded Image" />
+            </div>
+        {% endif %}
+
+        <!-- Debug görüntüsünü göster -->
+        {% if debug_image_file is not none %}
+            <div class="debug-result">
+                <h3>Debug Image:</h3>
+                <img src="{{ url_for('serve_debug_file', filename=debug_image_file) }}" alt="Debug Image" />
+            </div>
+        {% endif %}
+
+        <!-- Hata mesajı göster -->
+        {% if error %}
+            <div class="error">
+                <h3 style="color: #3f3f3f;">Error: {{ error }}</h3>
             </div>
         {% endif %}
     </div>
