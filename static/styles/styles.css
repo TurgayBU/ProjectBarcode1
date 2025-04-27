@@ -8,20 +8,21 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url("../images/background.jpg");
+    background-image: url("../images/supermarket.jpg");
     background-size: cover; /* Arkaplanın ekranın tamamını kaplaması için */
     background-position: center; /* Görüntünün düzgün bir şekilde ortalanması için */
     background-repeat: no-repeat; /* Görüntünün tekrarlanmamasını sağlar */}
 
 /* Container stil */
 .container {
-    background-color: white;
+    background: rgba(255, 255, 255, 0.85);
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    max-width: 500px;
+    max-width: 700px;
     width: 100%;
+    z-index: 1;
 }
 
 /* Başlık stil */
@@ -81,4 +82,142 @@ img {
 h2 {
     font-size: 24px;
     color: #333;
+}
+.glow-title {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    animation: glow 2s infinite alternate;
+    text-shadow:
+        0 0 5px #fff,
+        0 0 10px #fff,
+        0 0 20px #ff00de,
+        0 0 30px #ff00de,
+        0 0 40px #ff00de,
+        0 0 50px #ff00de,
+        0 0 60px #ff00de;
+}
+
+@keyframes glow {
+    0% {
+        text-shadow:
+            0 0 5px #ff0000,
+            0 0 10px #ff0000,
+            0 0 20px #ff0000,
+            0 0 30px #ff7300,
+            0 0 40px #ff7300,
+            0 0 50px #ff7300,
+            0 0 60px #ff7300;
+    }
+    25% {
+        text-shadow:
+            0 0 5px #fffb00,
+            0 0 10px #fffb00,
+            0 0 20px #fffb00,
+            0 0 30px #48ff00,
+            0 0 40px #48ff00,
+            0 0 50px #48ff00,
+            0 0 60px #48ff00;
+    }
+    50% {
+        text-shadow:
+            0 0 5px #00ffd5,
+            0 0 10px #00ffd5,
+            0 0 20px #00ffd5,
+            0 0 30px #002bff,
+            0 0 40px #002bff,
+            0 0 50px #002bff,
+            0 0 60px #002bff;
+    }
+    75% {
+        text-shadow:
+            0 0 5px #7a00ff,
+            0 0 10px #7a00ff,
+            0 0 20px #7a00ff,
+            0 0 30px #ff00c8,
+            0 0 40px #ff00c8,
+            0 0 50px #ff00c8,
+            0 0 60px #ff00c8;
+    }
+    100% {
+        text-shadow:
+            0 0 5px #ff0000,
+            0 0 10px #ff0000,
+            0 0 20px #ff0000,
+            0 0 30px #ff7300,
+            0 0 40px #ff7300,
+            0 0 50px #ff7300,
+            0 0 60px #ff7300;
+    }
+}
+.fireworks-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: url('/static/images/supermarket.jpg'); /* kendi resmini buraya koy */
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+#fireworks {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* tıklamayı engellemez */
+    z-index: 0;
+}
+
+.overlay-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding-top: 100px;
+}
+.monkey-container {
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    z-index: 2;
+    opacity: 0.9;
+    pointer-events: none; /* Üzerine tıklanmasın */
+}
+
+.monkey-container img {
+    width: 100px;   /* Küçük boy */
+    height: auto;
+    border-radius: 10px; /* Daha tatlı görünsün */
+}
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 15px;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: white;
+}
+
+.styled-table thead {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 16px;
+    text-align: left;
+}
+
+.styled-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #e9ecef;
 }

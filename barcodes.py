@@ -4,7 +4,6 @@ import os
 
 from mnistmodel import MnistModel
 
-
 class Barcodes:
     def __init__(self, image):
         self.image = None

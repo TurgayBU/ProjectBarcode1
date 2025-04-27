@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manager Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styleofmanager.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/Babel.js') }}">
+</head>
+<body>
+{% if error %}
+  <p style="color:red">{{ error }}</p>
+{% endif %}
+</div>
+<div class="card card--inverted">
+    <h2> <svg class="icon" aria-hidden="true">
+    </svg>Manager Entry</h2>
+    <form method="POST" action="/login">
+  <input class="" type="text" name="username" placeholder="Username" required>
+  <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+</form>
+
+        <a href="{{ url_for('index') }}"><button>Back</button></a>
+</div>
+</body>
+</html>

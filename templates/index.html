@@ -7,36 +7,163 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
 </head>
 <body>
+    <div class="background-fireworks">
+        <canvas id="fireworks"></canvas>
+    </div>
     <div class="container">
-        <h1>Project Barcode</h1>
+        {% if not is_manager %}
+            <p><a href="{{ url_for('login') }}">Manager Login</a></p>
+        {% else %}
+            <p>Logged in as Manager | <a href="{{ url_for('logout') }}">Logout</a></p>
+        {% endif %}
 
-        <!-- Resim yükleme formu -->
+        <h1 class="glow-title">Welcome to the Chop Shop</h1>
+
+        <!-- Resim yükleme -->
         <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data">
             <input type="file" name="file" accept="image/*" required>
             <button type="submit">Submit</button>
         </form>
 
-        <!-- Tahmin sonucu göster -->
-        {% if predicted_number is not none %}
-            <div class="result">
-                <h2>Predicted Number: {{ predicted_number }}</h2>
-            </div>
+        <!-- Kamera -->
+        <button id="cameraToggleBtn" onclick="toggleCamera()">Start Camera</button>
+        <div id="cameraContainer" style="margin-top: 15px; margin:auto;">
+            <video id="cameraFeed" style="width: 500px; display: none;" autoplay></video>
+        </div>
+        <button id="captureButton" style="display: none;" onclick="capturePhoto()">Capture Photo</button>
+
+        <form id="uploadCameraForm" action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data" style="display:none;">
+            <input type="hidden" id="imageData" name="image_data" />
+            <button type="submit">Submit Camera Photo</button>
+        </form>
+
+        <a href="{{ url_for('stop_camera_route') }}" class="btn btn-danger">Tahmini Bitir</a>
+
+        <!-- Ürün bilgisi gösterimi -->
+        {% if product %}
+        <div style="margin-top: 20px;">
+            <h3 class="glow-title">Product Information</h3>
+            <table border="1" cellpadding="10" cellspacing="3" class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Barcode</th>
+                        <th>Product Name</th>
+                        <th>Brand Name</th>
+                        <th>Price</th>
+                        <th>Origin</th>
+                        <th>Producted Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ product.ProductsId }}</td>
+                        <td>{{ product.ProductName }}</td>
+                        <td>{{ product.BrandName }}</td>
+                        <td>{{ product.Price }}</td>
+                        <td>{{ product.Origin }}</td>
+                        <td>{{ product.ProductDate }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        {% if is_manager %}
+            <form method="POST" action="{{ url_for('update_single_price') }}">
+                <input type="hidden" name="product_id" value="{{ product.ProductsId }}">
+                <label>New Price:</label>
+                <input type="text" name="new_price" required>
+                <button type="submit">Upgrade Price</button>
+            </form>
+        {% endif %}
         {% endif %}
 
-        <!-- Debug görüntüsünü göster -->
-        {% if debug_image_file is not none %}
-            <div class="debug-result">
-                <h3>Debug Image:</h3>
-                <img src="{{ url_for('serve_debug_file', filename=debug_image_file) }}" alt="Debug Image" />
-            </div>
+        <!-- Debug görüntü -->
+        {% if debug_image_file %}
+        <div class="debug-result">
+            <h3>Debug Image:</h3>
+            <img src="{{ url_for('serve_debug_file', filename=debug_image_file) }}"
+                alt="Debug Image"
+                style="width: 300px; max-height: 200px; object-fit: contain;" />
+        </div>
         {% endif %}
 
-        <!-- Hata mesajı göster -->
+        <!-- Hata mesajı -->
         {% if error %}
-            <div class="error">
-                <h3 style="color: #3f3f3f;">Error: {{ error }}</h3>
-            </div>
+        <div class="error">
+            <h3 style="color: #3f3f3f;">Error: {{ error }}</h3>
+        </div>
         {% endif %}
+
+        <div class="monkey-container">
+            <img src="{{ url_for('static', filename='images/monkey.gif') }}" alt="Dans Eden Maymun">
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.1.0/dist/index.umd.js"></script>
+    <script>
+        const container = document.getElementById('fireworks');
+        const fireworks = new Fireworks.default(container, {
+            hue: { min: 0, max: 360 },
+            delay: { min: 15, max: 30 },
+            speed: 2,
+            acceleration: 1.05,
+            friction: 0.98,
+            gravity: 1.5,
+            particles: 90,
+            trace: 3,
+            explosion: 5,
+            autoresize: true,
+            brightness: { min: 50, max: 80 },
+            decay: { min: 0.015, max: 0.03 },
+            mouse: { click: false, move: false, max: 2 }
+        });
+        fireworks.start();
+
+        let cameraOn = false;
+
+        function toggleCamera() {
+            const video = document.getElementById('cameraFeed');
+            const btn = document.getElementById('cameraToggleBtn');
+            const captureButton = document.getElementById('captureButton');
+
+            if (!cameraOn) {
+                video.style.display = 'block';
+                captureButton.style.display = 'block';
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(stream => {
+                        video.srcObject = stream;
+                    })
+                    .catch(err => {
+                        alert("Kamera açılamadı.");
+                    });
+                btn.innerText = 'Stop Camera';
+            } else {
+                video.style.display = 'none';
+                captureButton.style.display = 'none';
+                const stream = video.srcObject;
+                const tracks = stream.getTracks();
+                tracks.forEach(track => track.stop());
+                video.srcObject = null;
+                btn.innerText = 'Start Camera';
+            }
+
+            cameraOn = !cameraOn;
+        }
+
+        function capturePhoto() {
+            const video = document.getElementById('cameraFeed');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const imageData = canvas.toDataURL('image/jpeg');
+            document.getElementById('imageData').value = imageData;
+
+            // Gönderim formunu göster
+            document.getElementById('uploadCameraForm').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
