@@ -221,3 +221,18 @@ h2 {
 .styled-table tbody tr:hover {
     background-color: #e9ecef;
 }
+a:link, a:visited {
+  background-color: white;
+  color: black;
+  border: 2px solid green;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+    border-radius: 3px;
+}
+
+a:hover, a:active {
+  background-color: green;
+  color: white;
+}
