@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Barcode</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     <div class="background-fireworks">
         <canvas id="fireworks"></canvas>
+        <div class="background-carousel">
+    <img id="bg-left" class="bg-image" src="{{ url_for('static', filename='images/iyi.jpg') }}">
+    <img id="bg-center" class="bg-image" src="{{ url_for('static', filename='images/iyi1.jpg') }}">
+    <img id="bg-right" class="bg-image" src="{{ url_for('static', filename='images/iyi2.jpg') }}">
+</div>
+
     </div>
     <div class="container">
         {% if not is_manager %}
@@ -17,28 +24,27 @@
             <p>Logged in as Manager | <a href="{{ url_for('logout') }}">Logout</a></p>
         {% endif %}
 
-        <h1 class="glow-title">Welcome to the Chop Shop</h1>
+        <h1 class="glow-title">Welcome to the MonGross</h1>
 
         <!-- Resim yükleme -->
         <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data">
             <input type="file" name="file" accept="image/*" required>
             <button type="submit">Submit</button>
         </form>
-
         <!-- Kamera -->
+        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 10px;">
         <button id="cameraToggleBtn" onclick="toggleCamera()">Start Camera</button>
-        <div id="cameraContainer" style="margin-top: 15px; margin:auto;">
-            <video id="cameraFeed" style="width: 500px; display: none;" autoplay></video>
-        </div>
+        <a href="{{ url_for('stop_camera_route') }}" style="border-radius:5px;" class="btn btn-danger">End The Guess</a>
         <button id="captureButton" style="display: none;" onclick="capturePhoto()">Capture Photo</button>
-
+        </div>
+        <div id="cameraContainer" style="margin:auto;margin-top: 3px;">
+            <video id="cameraFeed" style="width: 500px; display: none;margin: auto" autoplay></video>
+        </div>
         <form id="uploadCameraForm" action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data" style="display:none;">
             <input type="hidden" id="imageData" name="image_data" />
-            <button type="submit">Submit Camera Photo</button>
+            <button style="margin-top: 3px;" type="submit">Submit Camera Photo</button>
         </form>
         <br>
-        <a href="{{ url_for('stop_camera_route') }}" class="btn btn-danger">End The Guess</a>
-
         <!-- Ürün bilgisi gösterimi -->
         {% if product %}
         <div style="margin-top: 20px;">
@@ -65,6 +71,9 @@
                     </tr>
                 </tbody>
             </table>
+        <button onclick="speakProductInfo()" style="background: none; border: none; cursor: pointer;">
+            <i class="fas fa-volume-up fa-2x" style="color: #d4af37"></i>
+        </button>
         </div>
 
         {% if is_manager %}
@@ -100,70 +109,24 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.1.0/dist/index.umd.js"></script>
-    <script>
-        const container = document.getElementById('fireworks');
-        const fireworks = new Fireworks.default(container, {
-            hue: { min: 0, max: 360 },
-            delay: { min: 15, max: 30 },
-            speed: 2,
-            acceleration: 1.05,
-            friction: 0.98,
-            gravity: 1.5,
-            particles: 90,
-            trace: 3,
-            explosion: 5,
-            autoresize: true,
-            brightness: { min: 50, max: 80 },
-            decay: { min: 0.015, max: 0.03 },
-            mouse: { click: false, move: false, max: 2 }
-        });
-        fireworks.start();
+   <script src="{{ url_for('static', filename='styles/scripts.js') }}"></script>
+<script>
+    const images = [
+        "{{ url_for('static', filename='images/iyi.jpg') }}",
+        "{{ url_for('static', filename='images/iyi1.jpg') }}",
+        "{{ url_for('static', filename='images/iyi3.jpg') }}",
+        "{{ url_for('static', filename='images/iyi2.jpg') }}"
+    ];
+</script>
+<script>
+  const productInfo = {
+    productName: "{{ product['ProductName'] }}",
+    brandName: "{{ product['BrandName'] }}",
+    origin: "{{ product['Origin'] }}",
+    productDate: "{{ product['ProductDate'] }}",
+    price: "{{ product['Price'] }}"
+  };
+</script>
 
-        let cameraOn = false;
-
-        function toggleCamera() {
-            const video = document.getElementById('cameraFeed');
-            const btn = document.getElementById('cameraToggleBtn');
-            const captureButton = document.getElementById('captureButton');
-
-            if (!cameraOn) {
-                video.style.display = 'block';
-                captureButton.style.display = 'block';
-                navigator.mediaDevices.getUserMedia({ video: true })
-                    .then(stream => {
-                        video.srcObject = stream;
-                    })
-                    .catch(err => {
-                        alert("Kamera açılamadı.");
-                    });
-                btn.innerText = 'Stop Camera';
-            } else {
-                video.style.display = 'none';
-                captureButton.style.display = 'none';
-                const stream = video.srcObject;
-                const tracks = stream.getTracks();
-                tracks.forEach(track => track.stop());
-                video.srcObject = null;
-                btn.innerText = 'Start Camera';
-            }
-
-            cameraOn = !cameraOn;
-        }
-
-        function capturePhoto() {
-            const video = document.getElementById('cameraFeed');
-            const canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            const context = canvas.getContext('2d');
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-            const imageData = canvas.toDataURL('image/jpeg');
-            document.getElementById('imageData').value = imageData;
-
-            // Gönderim formunu göster
-            document.getElementById('uploadCameraForm').style.display = 'block';
-        }
-    </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 import cv2
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory,Response
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, Response, flash
 import os
 from werkzeug.utils import secure_filename
 from barcodes import Barcodes  # Barcodes sınıfını kullanmak için
@@ -82,7 +82,7 @@ def prediction_with_camera():
 
 @app.route('/')
 def index():
-    return render_template('index.html', predicted_number=None, image_file=None, debug_image_file=None,is_manager=session.get('manager_logged_in', False))
+    return render_template('index.html', predicted_number=None, image_file=None, debug_image_file=None,is_manager=session.get('manager_logged_in', False),product=None)
 @app.route('/cameraman')
 def cameraman():
     predicted_number = prediction_with_camera()
@@ -219,7 +219,8 @@ def login():
             session['manager_username'] = manager['Username']  # İstersen kullanırsın
             return redirect(url_for('index'))
         else:
-            return "Login failed. Please try again."
+            flash("Login failed. Please try again.", "danger")
+            return render_template('login.html')
     return render_template('login.html')
 
 @app.route('/update_single_price', methods=['POST'])

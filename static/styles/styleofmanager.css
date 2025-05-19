@@ -132,17 +132,34 @@ button + button {
 
 .hidden {
   display: none;
-}
-body {
+}body {
+    height: auto;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-image: url("../images/supermarket.jpg");
-    background-size: cover; /* Arkaplanın ekranın tamamını kaplaması için */
-    background-position: center; /* Görüntünün düzgün bir şekilde ortalanması için */
-    background-repeat: no-repeat; /* Görüntünün tekrarlanmamasını sağlar */}
+
+    /* Bu iki satırı kaldır veya güncelle */
+    /* background-color: #8B4513; */
+    /* background-image: url("../images/iyi1.jpg"); */
+
+    /* Yeni: Tam şeffaflık sağla (veya gerekirse arka plan kaldır) */
+    background: transparent;
+}
+.background-carousel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

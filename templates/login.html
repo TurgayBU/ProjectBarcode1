@@ -7,13 +7,26 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/Babel.js') }}">
 </head>
 <body>
-{% if error %}
-  <p style="color:red">{{ error }}</p>
-{% endif %}
+<div class="background-carousel">
+    <img id="bg-left" class="bg-image" src="{{ url_for('static', filename='images/iyi.jpg') }}">
+    <img id="bg-center" class="bg-image active" src="{{ url_for('static', filename='images/iyi1.jpg') }}">
+    <img id="bg-right" class="bg-image" src="{{ url_for('static', filename='images/iyi2.jpg') }}">
+</div>
+
 </div>
 <div class="card card--inverted">
     <h2> <svg class="icon" aria-hidden="true">
     </svg>Manager Entry</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
     <form method="POST" action="/login">
   <input class="" type="text" name="username" placeholder="Username" required>
   <input type="password" name="password" placeholder="Password" required>
@@ -22,5 +35,15 @@
 
         <a href="{{ url_for('index') }}"><button>Back</button></a>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.1.0/dist/index.umd.js"></script>
+   <script src="{{ url_for('static', filename='styles/scripts.js') }}"></script>
+<script>
+    const images = [
+        "{{ url_for('static', filename='images/iyi.jpg') }}",
+        "{{ url_for('static', filename='images/iyi1.jpg') }}",
+        "{{ url_for('static', filename='images/iyi3.jpg') }}",
+        "{{ url_for('static', filename='images/iyi2.jpg') }}"
+    ];
+</script>
 </body>
 </html>
