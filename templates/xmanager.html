@@ -75,11 +75,14 @@
             <i class="fas fa-volume-up fa-2x" style="color: #d4af37"></i>
         </button>
         </div>
-        <form action="/subscribe_discount" method="POST">
-        <input type="hidden" name="product_id" value="{{ product.ProductsId }}">
-        <input style="font-size: 14px; padding: 10px 15px; width: 250px;" type="email" name="email" placeholder="Enter an e-mail" required>
-        <button type="submit">Notify me on discount</button>
-    </form>
+        {% if is_manager %}
+            <form method="POST" action="{{ url_for('update_single_price') }}">
+                <input type="hidden" name="product_id" value="{{ product.ProductsId }}">
+                <label>New Price:</label>
+                <input type="text" name="new_price" required>
+                <button type="submit">Upgrade Price</button>
+            </form>
+        {% endif %}
         {% endif %}
 
         <!-- Debug görüntü -->
