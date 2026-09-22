@@ -344,6 +344,7 @@ class Barcodes:
         :param image: Siyah-beyaz görüntü
         :param margin: Çizgi üstü ve altı korunacak piksel sayısı
         :return: Çizgileri korunmuş görüntü
+        ...güncellendi...
         """
         # Görüntünün konturlarını bulun
         contours, _ = cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)

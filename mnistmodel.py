@@ -28,7 +28,7 @@ class MnistModel:
         print(f"Model results (possibilties): {prediction}")
         predicted_number = np.argmax(prediction)
         return predicted_number
-
+#güncellendi
 #   def authenticate_number(self, resized_image):
 #        normalized_image = np.expand_dims(resized_image, axis=0)
 #        predictions = self.model.predict(normalized_image)

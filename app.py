@@ -15,7 +15,7 @@ stop_camera = False
 
 
 app = Flask(__name__)
-app.secret_key = 'çok-gizli-bir-anahtar'
+app.secret_key = 'güncel-key-lazım'
 connection = mysql.connector.connect(
     host="127.0.0.1",
     user="root",

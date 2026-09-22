@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# PyCharm / IDE
+.idea/
+.vscode/
+
+# macOS
+.DS_Store
+
+# Proje özel
+debug/
+uploads/
+*.log
+.env

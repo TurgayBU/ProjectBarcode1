@@ -85,7 +85,7 @@ def train_and_evaluate_model():
 
 def predict_sample(model, x_test, y_test):
     """
-    Rastgele bir örnekle tahmin yapar.
+    Rastgele bir örnekle tahmin yapar.Güncellendi
     """
     sample_idx = np.random.randint(0, len(x_test))
     sample_image = x_test[sample_idx]
